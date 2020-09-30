@@ -12,25 +12,31 @@ class NotesGridView extends StatelessWidget {
       content: "It's so easy if you know Flux Architecture");
 
   @override
-  Widget build(BuildContext context) => Scrollbar(
-      thickness: 3.0,
-      child: StaggeredGridView.countBuilder(
-        itemCount: 12,
-        crossAxisCount: 2,
-        itemBuilder: (_, i) => SingleNote(
-          key: Key(i.toString()),
-          margin: (i == 1) ? EdgeInsets.only(top: 40) : null,
-          color: (i == 0 || i % 3 == 0) ? Color(0xFF726A95) : Color(0xFF212121),
-          title: note.headline,
-          date: note.formatedDate,
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NoteScreen(note: note)));
-          },
-        ),
-        staggeredTileBuilder: (i) => StaggeredTile.fit(1),
-        padding: EdgeInsets.only(top: 21, left: 21, right: 21, bottom: 80),
-        mainAxisSpacing: 17,
-        crossAxisSpacing: 17,
-      ));
+  Widget build(BuildContext context) {
+    final EdgeInsets insets = MediaQuery.of(context).viewPadding;
+
+    return Scrollbar(
+        thickness: 3.0,
+        child: StaggeredGridView.countBuilder(
+          itemCount: 12,
+          crossAxisCount: 2,
+          itemBuilder: (_, i) => SingleNote(
+            key: Key(i.toString()),
+            margin: (i == 1) ? EdgeInsets.only(top: 40) : null,
+            color:
+                (i == 0 || i % 3 == 0) ? Color(0xFF726A95) : Color(0xFF212121),
+            title: note.headline,
+            date: note.formatedDate,
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NoteScreen(note: note)));
+            },
+          ),
+          staggeredTileBuilder: (i) => StaggeredTile.fit(1),
+          padding: EdgeInsets.only(
+              top: insets.top + 21, left: 21, right: 21, bottom: 80),
+          mainAxisSpacing: 17,
+          crossAxisSpacing: 17,
+        ));
+  }
 }

@@ -7,6 +7,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: _title,
+        theme: ThemeData(
+            primaryColor: Color(0xFF212121), accentColor: Color(0xFF212121)),
         home: HomeScreen(),
       );
 }
