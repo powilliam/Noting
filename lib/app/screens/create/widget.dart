@@ -1,6 +1,10 @@
+import 'package:Noting/app/blocs/notes/notes_bloc.dart';
+import 'package:Noting/app/blocs/notes/notes_event.dart';
+import 'package:Noting/app/models/note.dart';
 import 'package:Noting/app/screens/create/controller.dart';
 import 'package:Noting/app/widgets/noting_button/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -43,7 +47,13 @@ class _CreateScreenState extends State<CreateScreen> {
                   ),
                   NotingButton(
                       child: Icon(Icons.check, color: Colors.white),
-                      type: NotingButtonType.OUTLINE),
+                      type: NotingButtonType.OUTLINE,
+                      onTap: () {
+                        final Note note = widget.controller.create();
+                        BlocProvider.of<NotesBloC>(context)
+                            .add(NotesCreated(note));
+                        Navigator.of(context).pop();
+                      }),
                 ],
               ),
               SizedBox(height: 41),

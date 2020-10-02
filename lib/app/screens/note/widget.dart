@@ -1,8 +1,11 @@
+import 'package:Noting/app/blocs/notes/notes_bloc.dart';
+import 'package:Noting/app/blocs/notes/notes_event.dart';
 import 'package:Noting/app/models/note.dart';
 import 'package:Noting/app/screens/update/controller.dart';
 import 'package:Noting/app/screens/update/widget.dart';
 import 'package:Noting/app/widgets/noting_button/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -52,8 +55,14 @@ class _NoteScreenState extends State<NoteScreen> {
                         ),
                         SizedBox(width: 16),
                         NotingButton(
-                            child: Icon(Icons.delete, color: Colors.white),
-                            type: NotingButtonType.OUTLINE),
+                          child: Icon(Icons.delete, color: Colors.white),
+                          type: NotingButtonType.OUTLINE,
+                          onTap: () {
+                            BlocProvider.of<NotesBloC>(context)
+                                .add(NotesDeleted(widget.note.id));
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ],
                     )
                   ],

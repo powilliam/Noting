@@ -1,8 +1,10 @@
+import 'package:Noting/app/models/note.dart';
 import 'package:flutter/material.dart';
 
 abstract class UpdateScreenControllerContract {
   TextEditingController get headlineTextEditingController;
   TextEditingController get contentTextEditingController;
+  Note update(Note note);
   void dispose();
 }
 
@@ -18,6 +20,15 @@ class UpdateScreenController implements UpdateScreenControllerContract {
   @override
   TextEditingController get contentTextEditingController =>
       _contentTextEditingController;
+
+  @override
+  Note update(Note note) {
+    return Note(
+        id: note.id,
+        headline: _headlineTextEditingController.text,
+        content: _contentTextEditingController.text,
+        date: note.date);
+  }
 
   @override
   void dispose() {
