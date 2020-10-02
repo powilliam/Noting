@@ -2,6 +2,7 @@ import 'package:Noting/app/blocs/notes/notes_bloc.dart';
 import 'package:Noting/app/blocs/notes/notes_event.dart';
 import 'package:Noting/app/models/note.dart';
 import 'package:Noting/app/screens/create/controller.dart';
+import 'package:Noting/app/screens/home/widget.dart';
 import 'package:Noting/app/widgets/noting_button/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,7 @@ class _CreateScreenState extends State<CreateScreen> {
     final EdgeInsets insets = MediaQuery.of(context).viewPadding;
 
     return Scaffold(
+      key: widget.controller.scaffoldKey,
       backgroundColor: Color(0xFF121212),
       body: Scrollbar(
         thickness: 3.0,
@@ -49,10 +51,24 @@ class _CreateScreenState extends State<CreateScreen> {
                       child: Icon(Icons.check, color: Colors.white),
                       type: NotingButtonType.OUTLINE,
                       onTap: () {
+                        if (!widget.controller.validate()) {
+                          widget.controller.scaffoldKey.currentState
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text('A note must have a headline',
+                                    style: GoogleFonts.mukta(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    )),
+                                backgroundColor: Color(0xFF212121)));
+                          return;
+                        }
                         final Note note = widget.controller.create();
                         BlocProvider.of<NotesBloC>(context)
                             .add(NotesCreated(note));
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (_) => HomeScreen()),
+                            (_) => false);
                       }),
                 ],
               ),

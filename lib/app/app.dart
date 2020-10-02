@@ -5,8 +5,6 @@ import 'package:Noting/app/screens/home/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//TODO: Use pushAndRemoveUntil to ensure that the navigator state was reseted
-//TODO: Implements form validation with Snackbar as alert for Create Screen and Update Screen
 class App extends StatelessWidget {
   static const String _title = "Noting";
 

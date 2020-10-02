@@ -1,6 +1,7 @@
 import 'package:Noting/app/blocs/notes/notes_bloc.dart';
 import 'package:Noting/app/blocs/notes/notes_event.dart';
 import 'package:Noting/app/models/note.dart';
+import 'package:Noting/app/screens/home/widget.dart';
 import 'package:Noting/app/screens/update/controller.dart';
 import 'package:Noting/app/screens/update/widget.dart';
 import 'package:Noting/app/widgets/noting_button/widget.dart';
@@ -60,7 +61,10 @@ class _NoteScreenState extends State<NoteScreen> {
                           onTap: () {
                             BlocProvider.of<NotesBloC>(context)
                                 .add(NotesDeleted(widget.note.id));
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                                (route) => false);
                           },
                         ),
                       ],

@@ -38,6 +38,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final EdgeInsets insets = MediaQuery.of(context).viewPadding;
 
     return Scaffold(
+      key: widget.controller.scaffoldKey,
       backgroundColor: Color(0xFF121212),
       body: Scrollbar(
         thickness: 3.0,
@@ -59,11 +60,25 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       child: Icon(Icons.check, color: Colors.white),
                       type: NotingButtonType.OUTLINE,
                       onTap: () {
+                        if (!widget.controller.validate()) {
+                          widget.controller.scaffoldKey.currentState
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text('A note must have a headline',
+                                    style: GoogleFonts.mukta(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    )),
+                                backgroundColor: Color(0xFF212121)));
+                          return;
+                        }
                         final Note note = widget.controller.update(widget.note);
                         BlocProvider.of<NotesBloC>(context)
                             .add(NotesUpdated(note.id, note));
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeScreen()));
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                            (_) => false);
                       }),
                 ],
               ),
